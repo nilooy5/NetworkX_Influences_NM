@@ -44,8 +44,7 @@ G = nx.Graph()
 G.add_nodes_from(target['id'])
 # add edges to the graph
 G.add_edges_from(edges.values)
-# nx.draw(G, with_labels=True)
-# plt.show()
+labels_dict = {list(G.nodes)[i]: target['page_name'][i] for i in range(len(list(G.nodes)))}
 
 # get the most influential node
 # most_influential = most_influential_node(G)
@@ -75,4 +74,7 @@ top10_labels = target[target['id'].isin(top10)].values[:, 1]
 # get page_name from target where facebook_id is top10_labels
 page_names = target[target['facebook_id'].isin(top10_labels)]['page_name']
 print(page_names)
+
+nx.draw_networkx(G, node_size=list(nx.pagerank(G).values()), labels=labels_dict, with_labels=True)
+plt.show()
 
